@@ -12,7 +12,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import AllSlotsReset, SlotSet, Restarted
-
+from model.search_restaurants import SearchRestaurants
 
 class ActionSearchRestaurant(Action):
 
@@ -29,12 +29,20 @@ class ActionSearchRestaurant(Action):
         
         location = tracker.get_slot("location")
         cuisine = tracker.get_slot("cuisine")
-
         dispatcher.utter_message(text="Hello World!")
         dispatcher.utter_message(text=budgetmin)
         dispatcher.utter_message(text=budgetmax)
         dispatcher.utter_message(text=location)
         dispatcher.utter_message(text=cuisine)
+
+
+        zomato =  SearchRestaurants()
+        restaurants_length, response  = zomato.search_restaurants(location, cuisine, budgetmin, budgetmax)
+
+        dispatcher.utter_message(str(response))
+        if restaurants_length == 0:
+            return [SlotSet("restaurant_exists", False)]
+
         return [SlotSet("restaurant_exists", True)]
 
 
