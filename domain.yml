@@ -1,0 +1,85 @@
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet
+- goodbye
+- affirm
+- deny
+- restaurant_search
+- ask_email
+entities:
+- cuisine
+- location
+- budgetmin
+- budgetmax
+- email
+- emailid
+slots:
+  budget_ok:
+    type: bool
+  budgetmax:
+    type: float
+    max_value: 1.0
+    min_value: 0.0
+  budgetmin:
+    type: float
+    max_value: 1.0
+    min_value: 0.0
+  cuisine:
+    type: text
+  cuisine_ok:
+    type: bool
+  emailid:
+    type: text
+  location:
+    type: text
+  location_ok:
+    type: bool
+  restaurant_exist:
+    type: unfeaturized
+  restaurant_exists:
+    type: bool
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_ask_cuisine:
+  - buttons:
+    - payload: Chinese
+      title: Chinese
+    - payload: Italian
+      title: Italian
+    - payload: South Indian
+      title: South Indian
+    - payload: North Indian
+      title: North Indian
+    text: what kind of cuisine would you like?
+  utter_ask_location:
+  - text: In what location?
+  utter_ask_budget:
+  - buttons:
+    - payload: Less than Rs. 300
+      title: Less than Rs. 300
+    - payload: Rs. 300 to 700
+      title: Rs. 300 to 700
+    - payload: More than 700
+      title: More than 700
+    text: What price range are you looking for?
+  utter_ask_emailid:
+  - text: Please provide your email id.
+  utter_ask_email:
+  - text: Do you want a list of top 10 restaurants in your email?
+  - text: Should I send you details of all the restaurants on email?
+actions:
+- action_search_restaurants
+- action_restart
+- action_send_email
+- action_verify_location
+- action_verify_cuisine
+- action_verify_budget
